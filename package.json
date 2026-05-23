@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "node server/index.js",
+    "dev:server": "node src/backend/index.js",
     "dev:all": "concurrently -n web,api -c blue,green \"npm run dev\" \"npm run dev:server\"",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node server/index.js"
+    "start": "node src/backend/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
