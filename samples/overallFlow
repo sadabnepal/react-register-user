@@ -1,0 +1,21 @@
+sequenceDiagram
+  participant User
+  participant Form as RegistrationForm
+  participant API as Backend /api/signup
+  participant App
+
+  User->>Form: Submit
+  Form->>Form: validateRegistration()
+  alt invalid
+    Form-->>User: field errors
+  else valid
+    Form->>API: POST signup
+    alt 2xx
+      API-->>Form: user + token
+      Form->>App: onSuccess(data)
+      App-->>User: SuccessScreen
+    else 4xx/5xx
+      API-->>Form: error body
+      Form-->>User: show errors
+    end
+  end
