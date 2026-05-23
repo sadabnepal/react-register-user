@@ -1,0 +1,86 @@
+import { Router } from 'express';
+import bcrypt from 'bcrypt';
+import db from '../db.js';
+import { validateSignupBody } from '../validation.js';
+
+const router = Router();
+
+const insertUser = db.prepare(`
+  INSERT INTO users (
+    first_name, last_name, email, phone, password_hash, gender, date_of_birth
+  ) VALUES (
+    @firstName, @lastName, @email, @phone, @passwordHash, @gender, @dateOfBirth
+  )
+`);
+
+const findUserByEmail = db.prepare(`
+  SELECT id, first_name, last_name, email, phone, gender, date_of_birth, created_at
+  FROM users
+  WHERE email = @email COLLATE NOCASE
+`);
+
+const findUserById = db.prepare(`
+  SELECT id, first_name, last_name, email, phone, gender, date_of_birth, created_at
+  FROM users
+  WHERE id = @id
+`);
+
+function toPublicUser(row) {
+  return {
+    id: row.id,
+    fname: row.first_name,
+    lname: row.last_name,
+    email: row.email,
+    phone: row.phone,
+    gender: row.gender,
+    dob: row.date_of_birth,
+    createdAt: row.created_at,
+  };
+}
+
+router.post('/signup', async (req, res) => {
+  const { errors, fields } = validateSignupBody(req.body);
+
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  const existing = findUserByEmail.get({ email: fields.email });
+  if (existing) {
+    return res.status(409).json({
+      error: 'An account with this email already exists',
+      field: 'email',
+    });
+  }
+
+  try {
+    const passwordHash = await bcrypt.hash(fields.pwd, 10);
+
+    const result = insertUser.run({
+      firstName: fields.fname,
+      lastName: fields.lname,
+      email: fields.email,
+      phone: fields.phone,
+      passwordHash,
+      gender: fields.gender,
+      dateOfBirth: fields.dob,
+    });
+
+    const user = findUserById.get({ id: result.lastInsertRowid });
+    return res.status(201).json({
+      message: 'Account created successfully',
+      user: toPublicUser(user),
+    });
+  } catch (err) {
+    if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return res.status(409).json({
+        error: 'An account with this email already exists',
+        field: 'email',
+      });
+    }
+    console.error('Signup error:', err);
+    return res.status(500).json({ error: 'Unable to create account. Please try again.' });
+  }
+});
+
+export default router;

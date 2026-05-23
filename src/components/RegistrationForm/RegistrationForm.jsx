@@ -1,26 +1,48 @@
 import { useState } from 'react';
-import Field from '../Field/Field';
+import { ApiError, registerUser } from '../../api/auth';
 import {
   GENDER_OPTIONS,
   INITIAL_REGISTRATION_FIELDS,
   TODAY_ISO,
 } from '../../constants/registration';
 import { validateRegistration } from '../../utils/validateRegistration';
+import Field from '../Field/Field';
 
 export default function RegistrationForm({ onSuccess }) {
   const [fields, setFields] = useState(INITIAL_REGISTRATION_FIELDS);
   const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const set =
     (key) =>
     (e) =>
       setFields((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setFormError('');
     const errs = validateRegistration(fields);
     setErrors(errs);
-    if (Object.keys(errs).length === 0) {
-      onSuccess(fields);
+    if (Object.keys(errs).length > 0) return;
+
+    setSubmitting(true);
+    try {
+      const { user } = await registerUser(fields);
+      onSuccess(user);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        if (err.errors) {
+          setErrors(err.errors);
+        } else if (err.field) {
+          setErrors((prev) => ({ ...prev, [err.field]: err.message }));
+        } else {
+          setFormError(err.message);
+        }
+      } else {
+        setFormError('Unable to reach the server. Is the API running?');
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -30,6 +52,7 @@ export default function RegistrationForm({ onSuccess }) {
       className={errors[key] ? 'error' : ''}
       value={fields[key]}
       onChange={set(key)}
+      disabled={submitting}
       {...props}
     />
   );
@@ -38,6 +61,8 @@ export default function RegistrationForm({ onSuccess }) {
     <div className="card">
       <h1>Create account</h1>
       <p className="subtitle">Join us today — it's completely free.</p>
+
+      {formError && <p className="form-error">{formError}</p>}
 
       <div className="row">
         <Field label="First name" id="fname" error={errors.fname}>
@@ -71,6 +96,7 @@ export default function RegistrationForm({ onSuccess }) {
           className={errors.gender ? 'error' : ''}
           value={fields.gender}
           onChange={set('gender')}
+          disabled={submitting}
         >
           <option value="">— Select —</option>
           {GENDER_OPTIONS.map((option) => (
@@ -85,8 +111,13 @@ export default function RegistrationForm({ onSuccess }) {
         {inp('dob', { type: 'date', max: TODAY_ISO })}
       </Field>
 
-      <button type="button" className="btn" onClick={handleSubmit}>
-        Create my account
+      <button
+        type="button"
+        className="btn"
+        onClick={handleSubmit}
+        disabled={submitting}
+      >
+        {submitting ? 'Creating account…' : 'Create my account'}
       </button>
     </div>
   );
