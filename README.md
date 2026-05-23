@@ -2,6 +2,15 @@
 
 A registration form built with React and Vite.
 
+## Setup
+```
+git clone https://github.com/sadabnepal/react-register-user.git
+```
+
+```
+cd react-register-user
+```
+
 ## Project structure
 
 ```
