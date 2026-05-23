@@ -3,5 +3,5 @@ dist
 .DS_Store
 *.local
 .env
-server/data/*.db
-server/data/*.db-*
+src/backend/data/*.db
+src/backend/data/*.db-*

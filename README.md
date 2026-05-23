@@ -15,23 +15,20 @@ cp .env.example .env   # optional — defaults work for local dev
 
 ```
 src/
-├── api/auth.js              # Signup API client
-├── main.jsx
-├── App.jsx
-├── components/
-│   ├── Field/
-│   ├── RegistrationForm/
-│   └── SuccessScreen/
-├── constants/
-├── styles/
-└── utils/
-
-server/
-├── index.js                 # Express API entry
-├── db.js                    # SQLite setup
-├── validation.js
-├── routes/auth.js           # POST /api/auth/signup
-└── data/users.db            # Created on first run (gitignored)
+├── frontend/                 # React app (Vite)
+│   ├── main.jsx
+│   ├── App.jsx
+│   ├── api/
+│   ├── components/
+│   ├── constants/
+│   ├── styles/
+│   └── utils/
+└── backend/                  # Express API + SQLite
+    ├── index.js
+    ├── db.js
+    ├── validation.js
+    ├── routes/auth.js
+    └── data/users.db         # Created on first run (gitignored)
 ```
 
 ## Scripts
@@ -52,7 +49,7 @@ Run both apps (recommended):
 npm run dev:all
 ```
 
-Open http://localhost:5173. Form submissions call `POST /api/auth/signup`, which stores users in SQLite (`server/data/users.db`). Passwords are hashed with bcrypt; confirm password is never sent to the API.
+Open http://localhost:5173. Form submissions call `POST /api/auth/signup`, which stores users in SQLite (`src/backend/data/users.db`). Passwords are hashed; confirm password is never sent to the API.
 
 ### API
 
@@ -74,4 +71,4 @@ Duplicate email returns `409` with `{ "field": "email", ... }`.
 ## Deploy notes
 
 - **Frontend:** deploy `dist/` (Vercel, Netlify, etc.). Set `VITE_API_URL` to your API origin.
-- **API:** deploy `server/` on any Node host (Render, Railway, Fly.io). Set `PORT` and optionally `DATABASE_PATH` to a persistent volume path so SQLite survives restarts.
+- **API:** run `npm start` on any Node host. Set `PORT` and optionally `DATABASE_PATH` to a persistent volume path so SQLite survives restarts.
