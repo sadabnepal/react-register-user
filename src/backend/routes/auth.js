@@ -19,6 +19,12 @@ const findUserByEmail = db.prepare(`
   WHERE email = @email COLLATE NOCASE
 `);
 
+const findUserAuth = db.prepare(`
+  SELECT id, first_name, last_name, email, phone, gender, date_of_birth, created_at, password_hash
+  FROM users
+  WHERE email = @email COLLATE NOCASE
+`);
+
 const findUserById = db.prepare(`
   SELECT id, first_name, last_name, email, phone, gender, date_of_birth, created_at
   FROM users
@@ -80,6 +86,31 @@ router.post('/signup', async (req, res) => {
     }
     console.error('Signup error:', err);
     return res.status(500).json({ error: 'Unable to create account. Please try again.' });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body || {};
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' });
+  }
+
+  try {
+    const row = findUserAuth.get({ email });
+    if (!row) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const match = await bcrypt.compare(password, row.password_hash);
+    if (!match) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    return res.status(200).json({ user: toPublicUser(row) });
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: 'Unable to process login. Please try again.' });
   }
 });
 

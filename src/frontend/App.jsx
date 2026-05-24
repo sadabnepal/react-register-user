@@ -1,18 +1,37 @@
 import { useState } from 'react';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
-import SuccessScreen from './components/SuccessScreen/SuccessScreen';
+import Welcome from './components/Welcome/Welcome';
+import Login from './components/Login/Login';
+import UserDashboard from './components/UserDashboard/UserDashboard';
 
 export default function App() {
-  const [registered, setRegistered] = useState(null);
+  const [view, setView] = useState('welcome'); // 'welcome' | 'register' | 'login'
+  const [user, setUser] = useState(null);
 
-  if (registered) {
+  if (user) {
     return (
-      <SuccessScreen
-        fields={registered}
-        onReset={() => setRegistered(null)}
+      <UserDashboard
+        user={user}
+        onLogout={() => {
+          setUser(null);
+          setView('welcome');
+        }}
       />
     );
   }
 
-  return <RegistrationForm onSuccess={setRegistered} />;
+  if (view === 'register') {
+    return <RegistrationForm onSuccess={(u) => setUser(u)} />;
+  }
+
+  if (view === 'login') {
+    return <Login onSuccess={(u) => setUser(u)} onBack={() => setView('welcome')} />;
+  }
+
+  return (
+    <Welcome
+      onLogin={() => setView('login')}
+      onSignup={() => setView('register')}
+    />
+  );
 }
