@@ -1,17 +1,19 @@
 import { expect, test } from '@playwright/test';
 import { RegistrationPage } from '../pageObjects/registrationPage';
+import { WelcomePage } from '../pageObjects/welcomePage';
 import { uniqueEmail, validUser } from '../data/registrationData';
 
 
 test.describe('Registration UI', () => {
-  let registrationPage: RegistrationPage;
 
   test.beforeEach(async ({ page }) => {
-    registrationPage = new RegistrationPage(page);
-    await registrationPage.goto();
+    const welcomePage = new WelcomePage(page);
+    await welcomePage.goto();
+    await welcomePage.clickSignUp();
   });
 
-  test('should render the registration form', async () => {
+  test('should render the registration form', async ({ page }) => {
+    const registrationPage = new RegistrationPage(page);
     await expect(registrationPage.getField('firstName')).toBeVisible();
     await expect(registrationPage.getField('lastName')).toBeVisible();
     await expect(registrationPage.getField('email')).toBeVisible();
@@ -23,7 +25,8 @@ test.describe('Registration UI', () => {
     await expect(registrationPage.submitButton).toBeVisible();
   });
 
-  test('should show validation errors when required fields are missing', async () => {
+  test('should show validation errors when required fields are missing', async ({ page }) => {
+    const registrationPage = new RegistrationPage(page);
     await registrationPage.submit();
 
     await expect(registrationPage.getFieldError('firstName')).toHaveText('First name is required');
@@ -36,7 +39,8 @@ test.describe('Registration UI', () => {
     await expect(registrationPage.getFieldError('dob')).toHaveText('Date of birth is required');
   });
 
-  test('should show password mismatch validation', async () => {
+  test('should show password mismatch validation', async ({ page }) => {
+    const registrationPage = new RegistrationPage(page);
     await registrationPage.completeRegistration({
       firstName: validUser.firstName,
       lastName: validUser.lastName,
@@ -51,7 +55,8 @@ test.describe('Registration UI', () => {
     await expect(registrationPage.getFieldError('confirmPassword')).toHaveText('Passwords do not match');
   });
 
-  test('should register a new user successfully', async () => {
+  test('should register a new user successfully', async ({ page }) => {
+    const registrationPage = new RegistrationPage(page);
     const testEmail = uniqueEmail();
 
     await registrationPage.completeRegistration({
