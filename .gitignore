@@ -5,3 +5,10 @@ dist
 .env
 src/backend/data/*.db
 src/backend/data/*.db-*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
