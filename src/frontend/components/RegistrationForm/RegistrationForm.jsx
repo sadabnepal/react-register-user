@@ -65,11 +65,11 @@ export default function RegistrationForm({ onSuccess }) {
       {formError && <p className="form-error">{formError}</p>}
 
       <div className="row">
-        <Field label="First name" id="fname" error={errors.fname}>
-          {inp('fname', { placeholder: 'Jane' })}
+        <Field label="First name" id="firstName" error={errors.firstName}>
+          {inp('firstName', { placeholder: 'Jane' })}
         </Field>
-        <Field label="Last name" id="lname" error={errors.lname}>
-          {inp('lname', { placeholder: 'Doe' })}
+        <Field label="Last name" id="lastName" error={errors.lastName}>
+          {inp('lastName', { placeholder: 'Doe' })}
         </Field>
       </div>
 
@@ -82,11 +82,11 @@ export default function RegistrationForm({ onSuccess }) {
       </Field>
 
       <div className="row">
-        <Field label="Password" id="pwd" error={errors.pwd}>
-          {inp('pwd', { type: 'password', placeholder: 'Min 8 characters' })}
+        <Field label="Password" id="password" error={errors.password}>
+          {inp('password', { type: 'password', placeholder: 'Min 8 characters' })}
         </Field>
-        <Field label="Confirm password" id="cpwd" error={errors.cpwd}>
-          {inp('cpwd', { type: 'password', placeholder: 'Repeat password' })}
+        <Field label="Confirm password" id="confirmPassword" error={errors.confirmPassword}>
+          {inp('confirmPassword', { type: 'password', placeholder: 'Repeat password' })}
         </Field>
       </div>
 

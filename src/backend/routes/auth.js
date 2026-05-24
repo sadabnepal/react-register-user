@@ -28,8 +28,8 @@ const findUserById = db.prepare(`
 function toPublicUser(row) {
   return {
     id: row.id,
-    fname: row.first_name,
-    lname: row.last_name,
+    firstName: row.first_name,
+    lastName: row.last_name,
     email: row.email,
     phone: row.phone,
     gender: row.gender,
@@ -54,11 +54,11 @@ router.post('/signup', async (req, res) => {
   }
 
   try {
-    const passwordHash = await bcrypt.hash(fields.pwd, 10);
+    const passwordHash = await bcrypt.hash(fields.password, 10);
 
     const result = insertUser.run({
-      firstName: fields.fname,
-      lastName: fields.lname,
+      firstName: fields.firstName,
+      lastName: fields.lastName,
       email: fields.email,
       phone: fields.phone,
       passwordHash,

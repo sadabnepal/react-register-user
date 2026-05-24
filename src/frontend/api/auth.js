@@ -11,7 +11,7 @@ export class ApiError extends Error {
 }
 
 export async function registerUser(fields) {
-  const { cpwd: _cpwd, ...payload } = fields;
+  const { confirmPassword: _confirmPassword, ...payload } = fields;
 
   const response = await fetch(`${API_BASE}/api/auth/signup`, {
     method: 'POST',

@@ -1,17 +1,17 @@
 export function validateSignupBody(body) {
   const errors = {};
   const fields = {
-    fname: body.fname?.trim() ?? '',
-    lname: body.lname?.trim() ?? '',
+    firstName: body.firstName?.trim() ?? '',
+    lastName: body.lastName?.trim() ?? '',
     email: body.email?.trim() ?? '',
     phone: body.phone?.trim() ?? '',
-    pwd: body.pwd ?? '',
+    password: body.password ?? '',
     gender: body.gender?.trim() ?? '',
     dob: body.dob?.trim() ?? '',
   };
 
-  if (!fields.fname) errors.fname = 'First name is required';
-  if (!fields.lname) errors.lname = 'Last name is required';
+  if (!fields.firstName) errors.firstName = 'First name is required';
+  if (!fields.lastName) errors.lastName = 'Last name is required';
 
   if (!fields.email) {
     errors.email = 'Email is required';
@@ -25,10 +25,10 @@ export function validateSignupBody(body) {
     errors.phone = 'Enter a valid phone number';
   }
 
-  if (!fields.pwd) {
-    errors.pwd = 'Password is required';
-  } else if (fields.pwd.length < 8) {
-    errors.pwd = 'Must be at least 8 characters';
+  if (!fields.password) {
+    errors.password = 'Password is required';
+  } else if (fields.password.length < 8) {
+    errors.password = 'Must be at least 8 characters';
   }
 
   if (!fields.gender) errors.gender = 'Please select a gender';
