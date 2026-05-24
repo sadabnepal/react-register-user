@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function SuccessScreen({ fields, onReset }) {
   return (
     <div className="card">
@@ -14,10 +16,10 @@ export default function SuccessScreen({ fields, onReset }) {
             />
           </svg>
         </div>
-        <p className="success-name">Welcome, {fields.fname}!</p>
+        <p className="success-name">Welcome, {fields.firstName}!</p>
         <p className="success-msg">
-          Your account has been created successfully, {fields.fname}{' '}
-          {fields.lname}. We've sent a confirmation to your email address.
+          Your account has been created successfully, {fields.firstName}{' '}
+          {fields.lastName}. We&apos;ve sent a confirmation to your email address.
         </p>
         <span className="pill">{fields.email}</span>
         <br />
@@ -28,3 +30,12 @@ export default function SuccessScreen({ fields, onReset }) {
     </div>
   );
 }
+
+SuccessScreen.propTypes = {
+  fields: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+  onReset: PropTypes.func.isRequired,
+};

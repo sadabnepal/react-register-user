@@ -1,8 +1,8 @@
 export function validateRegistration(fields) {
   const errors = {};
 
-  if (!fields.fname.trim()) errors.fname = 'First name is required';
-  if (!fields.lname.trim()) errors.lname = 'Last name is required';
+  if (!fields.firstName.trim()) errors.firstName = 'First name is required';
+  if (!fields.lastName.trim()) errors.lastName = 'Last name is required';
 
   if (!fields.email.trim()) {
     errors.email = 'Email is required';
@@ -16,16 +16,16 @@ export function validateRegistration(fields) {
     errors.phone = 'Enter a valid phone number';
   }
 
-  if (!fields.pwd) {
-    errors.pwd = 'Password is required';
-  } else if (fields.pwd.length < 8) {
-    errors.pwd = 'Must be at least 8 characters';
+  if (!fields.password) {
+    errors.password = 'Password is required';
+  } else if (fields.password.length < 8) {
+    errors.password = 'Must be at least 8 characters';
   }
 
-  if (!fields.cpwd) {
-    errors.cpwd = 'Please confirm your password';
-  } else if (fields.cpwd !== fields.pwd) {
-    errors.cpwd = 'Passwords do not match';
+  if (!fields.confirmPassword) {
+    errors.confirmPassword = 'Please confirm your password';
+  } else if (fields.confirmPassword !== fields.password) {
+    errors.confirmPassword = 'Passwords do not match';
   }
 
   if (!fields.gender) errors.gender = 'Please select a gender';

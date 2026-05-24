@@ -1,10 +1,10 @@
 export const INITIAL_REGISTRATION_FIELDS = {
-  fname: '',
-  lname: '',
+  firstName: '',
+  lastName: '',
   email: '',
   phone: '',
-  pwd: '',
-  cpwd: '',
+  password: '',
+  confirmPassword: '',
   gender: '',
   dob: '',
 };
