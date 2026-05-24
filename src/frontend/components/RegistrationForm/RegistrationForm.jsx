@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { ApiError, registerUser } from '../../api/auth';
 import {
@@ -60,7 +61,7 @@ export default function RegistrationForm({ onSuccess }) {
   return (
     <div className="card">
       <h1>Create account</h1>
-      <p className="subtitle">Join us today — it's completely free.</p>
+      <p className="subtitle">Join us today — it&apos;s completely free.</p>
 
       {formError && <p className="form-error">{formError}</p>}
 
@@ -122,3 +123,7 @@ export default function RegistrationForm({ onSuccess }) {
     </div>
   );
 }
+
+RegistrationForm.propTypes = {
+  onSuccess: PropTypes.func.isRequired,
+};
