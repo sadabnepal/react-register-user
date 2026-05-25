@@ -7,6 +7,4 @@ export const validUser = {
   dob: '1990-01-01',
 };
 
-export function uniqueEmail() {
-  return `playwright+${crypto.randomUUID()}@example.com`;
-}
+export const uniqueEmail = () => `playwright+${crypto.randomUUID()}@example.com`;

@@ -32,3 +32,23 @@ export async function registerUser(fields) {
 
   return data;
 }
+
+export async function loginUser(credentials) {
+  const response = await fetch(`${API_BASE}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new ApiError(data.error || 'Login failed', {
+      status: response.status,
+      errors: data.errors,
+      field: data.field,
+    });
+  }
+
+  return data;
+}
