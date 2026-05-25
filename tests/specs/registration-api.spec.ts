@@ -17,7 +17,7 @@ function signupPayload(overrides = {}) {
 }
 
 test.describe('Registration API', () => {
-  
+
     test('GET /api/health returns ok', async ({ request }) => {
         const response = await request.get(`${API_BASE}/api/health`);
         expect(response.status()).toBe(200);
