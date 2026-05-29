@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { WelcomePage } from '../../pageObjects/welcomePage';
 import { uniqueEmail, validUser } from '../../data/registrationData';
-import { RegistrationPage } from '../../pageObjects/RegistrationPage';
+import { RegistrationPage } from '../../pageObjects/registrationPage';
 
 
 test.describe('Registration UI', () => {

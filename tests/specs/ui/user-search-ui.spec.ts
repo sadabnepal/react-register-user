@@ -3,7 +3,7 @@ import { DashboardPage } from '../../pageObjects/dashboardPage';
 import { UserSearchPage } from '../../pageObjects/userSearchPage';
 import { WelcomePage } from '../../pageObjects/welcomePage';
 import { uniqueEmail, validUser } from '../../data/registrationData';
-import { RegistrationPage } from '../../pageObjects/RegistrationPage';
+import { RegistrationPage } from '../../pageObjects/registrationPage';
 import { createUserViaApi } from '../../helper/apiHelper';
 
 const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001';
