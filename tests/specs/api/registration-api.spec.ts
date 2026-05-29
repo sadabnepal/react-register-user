@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { uniqueEmail } from '../data/registrationData';
+import { uniqueEmail } from '../../data/registrationData';
 
 const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001';
 

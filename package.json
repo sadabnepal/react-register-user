@@ -11,7 +11,10 @@
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{js,jsx}\" \"tests/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx}\" \"tests/**/*.ts\" --fix",
-    "start": "node src/backend/index.js"
+    "start": "node src/backend/index.js",
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -23,6 +26,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "@typescript-eslint/eslint-plugin": "^8.59.4",

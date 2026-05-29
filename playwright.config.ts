@@ -22,11 +22,17 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'ui',
+      testDir: 'tests/specs/ui',
+      use: { ...devices['Desktop Chrome'] }
+    },
+    {
+      name: 'api',
+      testDir: 'tests/specs/api'
     }
   ],
 

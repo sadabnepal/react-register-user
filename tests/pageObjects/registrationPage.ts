@@ -11,7 +11,6 @@ export class RegistrationPage {
     private readonly genderSelect: Locator;
     private readonly dobInput: Locator;
     readonly submitButton: Locator;
-    readonly successName: Locator;
     readonly successMessage: Locator;
     readonly successEmail: Locator;
 
@@ -26,7 +25,6 @@ export class RegistrationPage {
         this.genderSelect = page.getByLabel('Gender', { exact: true });
         this.dobInput = page.getByLabel('Date of birth', { exact: true });
         this.submitButton = page.getByRole('button', { name: 'Create my account' });
-        this.successName = page.getByText('Welcome,', { exact: false });
         this.successMessage = page.getByText('Your account has been created successfully,', { exact: false });
         this.successEmail = page.locator('.pill');
     }
@@ -63,15 +61,15 @@ export class RegistrationPage {
     }
 
     async completeRegistration(fields: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    password: string;
-    confirmPassword: string;
-    gender: string;
-    dob: string;
-  }) {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        password: string;
+        confirmPassword: string;
+        gender: string;
+        dob: string;
+    }) {
         await this.fillName(fields.firstName, fields.lastName);
         await this.fillContact(fields.email, fields.phone);
         await this.fillPassword(fields.password, fields.confirmPassword);

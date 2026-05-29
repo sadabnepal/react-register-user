@@ -1,37 +1,17 @@
 import { expect, test } from '@playwright/test';
-import { DashboardPage } from '../pageObjects/dashboardPage';
-import { UserSearchPage } from '../pageObjects/userSearchPage';
-import { WelcomePage } from '../pageObjects/welcomePage';
-import { RegistrationPage } from '../pageObjects/registrationPage';
-import { uniqueEmail, validUser } from '../data/registrationData';
+import { DashboardPage } from '../../pageObjects/dashboardPage';
+import { UserSearchPage } from '../../pageObjects/userSearchPage';
+import { WelcomePage } from '../../pageObjects/welcomePage';
+import { uniqueEmail, validUser } from '../../data/registrationData';
+import { RegistrationPage } from '../../pageObjects/RegistrationPage';
+import { createUserViaApi } from '../../helper/apiHelper';
 
 const API_BASE = process.env.API_BASE_URL || 'http://localhost:3001';
-
-async function createUser(
-    request: import('@playwright/test').APIRequestContext,
-    overrides: Record<string, string> = {}
-) {
-    const email = overrides.email ?? uniqueEmail();
-    const response = await request.post(`${API_BASE}/api/auth/signup`, {
-        data: {
-            firstName: validUser.firstName,
-            lastName: validUser.lastName,
-            email,
-            phone: validUser.phone,
-            password: validUser.password,
-            gender: validUser.gender,
-            dob: validUser.dob,
-            ...overrides,
-        },
-    });
-    expect(response.status()).toBe(201);
-    return { email, password: validUser.password };
-}
 
 test.describe('User search UI', () => {
 
     test.beforeEach(async ({ page, request }) => {
-        const { email, password } = await createUser(request);
+        const { email, password } = await createUserViaApi(request, API_BASE);
         await DashboardPage.openAfterLogin(page, email, password);
     });
 

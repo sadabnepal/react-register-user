@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { WelcomePage } from '../pageObjects/welcomePage';
+import { WelcomePage } from '../../pageObjects/welcomePage';
 
 test.describe('Welcome', () => {
 
@@ -42,4 +42,5 @@ test.describe('Welcome', () => {
         await expect(welcomePage.loginButton).toBeVisible();
         await expect(welcomePage.signUpButton).toBeVisible();
     });
+
 });
